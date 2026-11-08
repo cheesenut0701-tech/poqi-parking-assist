@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>泊齐｜模块化电瓶车停车辅助装置</title>
+  <meta name="description" content="错层车把、自回正导轨与机械车位指示相结合的模块化电瓶车停车方案。">
+  <style>
+    :root{
+      --ink:#18201d;--muted:#64706a;--paper:#f5f2e9;--card:#fffdf7;
+      --green:#0d6b4d;--lime:#b7e44a;--orange:#f56b3a;--line:#d8d5ca;
+      --shadow:0 22px 55px rgba(31,48,40,.12)
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;color:var(--ink);background:var(--paper);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif}
+    button,a{font:inherit} a{color:inherit;text-decoration:none}
+    .noise{position:fixed;inset:0;pointer-events:none;opacity:.035;z-index:9;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E")}
+    nav{height:76px;display:flex;align-items:center;justify-content:space-between;max-width:1180px;margin:auto;padding:0 24px}
+    .brand{font-weight:900;font-size:25px;letter-spacing:.06em}.brand i{color:var(--orange);font-style:normal}
+    .nav-links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
+    .hero{max-width:1180px;margin:36px auto 72px;padding:0 24px;display:grid;grid-template-columns:1fr 1.08fr;gap:58px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--green)}
+    .eyebrow:before{content:"";width:26px;height:3px;background:var(--lime)}
+    h1{font-size:clamp(48px,7vw,88px);line-height:.95;letter-spacing:-.07em;margin:22px 0 25px}
+    h1 span{display:block;color:var(--green)}
+    .lead{font-size:18px;line-height:1.8;color:var(--muted);max-width:560px}
+    .actions{display:flex;gap:13px;margin-top:34px;flex-wrap:wrap}
+    .btn{border:1px solid var(--ink);border-radius:999px;padding:13px 21px;font-weight:800;cursor:pointer;background:transparent}
+    .btn.primary{background:var(--ink);color:white}.btn:hover{transform:translateY(-2px)}
+    .hero-visual{min-height:520px;border-radius:34px;background:var(--green);position:relative;overflow:hidden;box-shadow:var(--shadow);isolation:isolate}
+    .model-section{max-width:none;background:#101713;color:white;padding:88px 24px}.model-inner{max-width:1180px;margin:auto}.model-grid{display:grid;grid-template-columns:1.45fr .75fr;gap:24px;margin-top:38px}.turntable{background:#252b28;border:1px solid #ffffff22;border-radius:26px;overflow:hidden;position:relative}.turntable img{width:100%;aspect-ratio:3/2;display:block;object-fit:cover}.angle-badge{position:absolute;left:18px;top:18px;background:#101713cc;border:1px solid #ffffff33;border-radius:999px;padding:8px 13px;font-size:12px}.viewer-controls{display:flex;align-items:center;gap:12px;padding:17px 20px;background:#151d19}.viewer-controls button{width:40px;height:40px;border:1px solid #ffffff30;border-radius:50%;background:transparent;color:white;font-size:20px;cursor:pointer}.viewer-controls input{flex:1;accent-color:var(--lime)}.model-info{display:flex;flex-direction:column;gap:14px}.model-card{background:#1b2520;border:1px solid #ffffff1d;border-radius:21px;padding:22px}.model-card h3{margin:0 0 12px;font-size:20px}.model-card p,.model-card li{color:#afbeb6;font-size:14px;line-height:1.65}.model-card ul{margin:0;padding-left:19px}.download{display:flex;justify-content:space-between;align-items:center;padding:14px 15px;border-radius:13px;background:#29362f;margin-top:9px;font-weight:800}.download small{color:#9cb0a5}.download:hover{background:var(--green)}
+    .hero-visual:before{content:"";position:absolute;width:330px;height:330px;border:72px solid var(--lime);border-radius:50%;right:-80px;top:-100px;opacity:.85}
+    .label{position:absolute;z-index:3;background:var(--card);border-radius:16px;padding:12px 16px;font-size:12px;font-weight:800;box-shadow:0 10px 25px #0634263b}
+    .l1{left:8%;top:12%}.l2{right:6%;top:45%}.l3{left:12%;bottom:8%}
+    .parking-scene{position:absolute;inset:90px 30px 40px;perspective:700px}
+    .ground{position:absolute;inset:28% 3% 0;background:#e7eadc;transform:rotateX(58deg);border-radius:18px;background-image:linear-gradient(90deg,transparent 48%,#b8beb3 49%,#b8beb3 51%,transparent 52%);background-size:33.333% 100%;box-shadow:0 30px 50px #002d2066}
+    .bike{position:absolute;z-index:2;width:42%;height:55%;top:24%;transition:.65s cubic-bezier(.2,.8,.2,1)}
+    .bike.a{left:5%}.bike.b{right:5%;transform:translateY(30px)}
+    .wheel{position:absolute;width:65px;height:65px;border:9px solid #17221e;border-radius:50%;bottom:0;background:#f6f2e7}.wheel.front{right:8%}.wheel.back{left:3%}
+    .frame{position:absolute;width:56%;height:12px;background:var(--orange);left:23%;bottom:39px;transform:rotate(-8deg);border-radius:10px}
+    .frame:before{content:"";position:absolute;width:10px;height:85px;background:var(--orange);right:9px;bottom:-2px;transform:rotate(-20deg);transform-origin:bottom}
+    .seat{position:absolute;width:52px;height:12px;background:#17221e;border-radius:8px;left:32%;bottom:102px}
+    .handle{position:absolute;width:74px;height:8px;background:#17221e;right:-2%;bottom:124px;border-radius:8px}
+    .guide{position:absolute;z-index:1;width:115px;height:70px;border:9px solid var(--lime);border-top:0;border-radius:10px 10px 45px 45px;bottom:-5px;transform:perspective(90px) rotateX(20deg)}
+    .g1{left:27%}.g2{right:8%}
+    section{max-width:1180px;margin:0 auto;padding:88px 24px}#principle{display:none}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:42px}
+    h2{font-size:clamp(34px,4vw,57px);margin:0;letter-spacing:-.05em;line-height:1.08}.section-head p{max-width:460px;color:var(--muted);line-height:1.7;margin:0}
+    .demo{display:grid;grid-template-columns:290px 1fr;gap:24px}
+    .steps{display:flex;flex-direction:column;gap:10px}
+    .step{padding:21px;border:1px solid var(--line);border-radius:19px;background:transparent;text-align:left;cursor:pointer;transition:.25s}
+    .step strong{display:block;font-size:17px}.step small{display:block;color:var(--muted);margin-top:7px;line-height:1.5}
+    .step.active{background:var(--ink);color:white;transform:translateX(8px);border-color:var(--ink)}.step.active small{color:#bac4bf}
+    .stage{min-height:420px;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:28px;position:relative;overflow:hidden}
+    .stage-top{display:flex;justify-content:space-between;align-items:center}.status{font-weight:900;color:var(--green)}
+    .vehicle-switch{position:absolute;z-index:5;top:88px;right:28px;display:flex;padding:4px;background:#e9e7dd;border-radius:999px}
+    .vehicle-switch button{border:0;background:transparent;padding:8px 14px;border-radius:999px;color:var(--muted);font-weight:800;cursor:pointer}
+    .vehicle-switch button.active{background:var(--ink);color:white}
+    .diagram{position:absolute;left:4%;right:4%;bottom:25px;height:270px;border-bottom:4px solid #9da59f;background:linear-gradient(165deg,transparent 62%,#dfe2d8 62.5%,#eef0e8 82%);perspective:900px}
+    .rail{position:absolute;left:68%;bottom:-2px;width:128px;height:205px;border:10px solid var(--green);border-top:0;clip-path:polygon(0 0,100% 0,73% 100%,27% 100%);opacity:.28;transition:.6s;transform:skewY(-4deg)}
+    .vehicle-3d{display:none}
+    .vehicle-photo{position:absolute;z-index:2;width:58%;height:225px;left:-3%;bottom:2px;object-fit:contain;object-position:center bottom;mix-blend-mode:multiply;filter:contrast(1.08) saturate(.9) drop-shadow(18px 18px 10px rgba(21,35,29,.22));transition:left .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1);transform:rotateY(-7deg);transform-origin:center bottom;pointer-events:none}
+    .vehicle-photo.bicycle-real{display:none}.stage[data-vehicle="bike"] .vehicle-photo.ebike-real{display:none}.stage[data-vehicle="bike"] .vehicle-photo.bicycle-real{display:block}
+    .vehicle-3d .bike-model{display:none}.stage[data-vehicle="ebike"] .vehicle-3d .ebike-model{display:block}.stage[data-vehicle="bike"] .vehicle-3d .bicycle-model{display:block}
+    .wheel-rim{fill:#f8f5ec;stroke:#17221e;stroke-width:14}.wheel-side{fill:none;stroke:#59625e;stroke-width:4;opacity:.75}.hub{fill:#cad0c8;stroke:#17221e;stroke-width:4}.spoke{stroke:#7e8983;stroke-width:2;opacity:.85}.metal{fill:none;stroke:#21302a;stroke-width:11;stroke-linecap:round;stroke-linejoin:round}.frame-green{fill:none;stroke:#0d6b4d;stroke-width:13;stroke-linecap:round;stroke-linejoin:round}.frame-orange{fill:none;stroke:#f56b3a;stroke-width:15;stroke-linecap:round;stroke-linejoin:round}.detail{fill:#26332e;stroke:#111a16;stroke-width:3}.chrome{fill:#dbe0dc;stroke:#47534d;stroke-width:3}
+    .clamp{position:absolute;width:160px;height:58px;left:calc(77% - 80px);bottom:8px;opacity:0;transition:.45s;z-index:4}
+    .clamp:before,.clamp:after{content:"";position:absolute;width:48px;height:58px;border:8px solid var(--orange)}
+    .clamp:before{left:0;border-right:0;border-radius:30px 0 0 30px}.clamp:after{right:0;border-left:0;border-radius:0 30px 30px 0}
+    .stage[data-state="1"] .vehicle-photo,.stage[data-state="2"] .vehicle-photo{left:34%;transform:rotateY(-3deg) scale(.98)}
+    .stage[data-state="2"] .clamp{opacity:1}.stage[data-state="2"] .rail{opacity:.7}
+    .mechanism{background:#e8ebe2;max-width:none}.mechanism-inner{max-width:1180px;margin:auto;padding:88px 24px}
+    .mechanism .mech-layout,.mechanism .traction-detail{display:none}.mechanism3d{margin-top:38px;background:#111815;border-radius:28px;padding:18px;box-shadow:var(--shadow)}.mechanism3d video{width:100%;display:block;border-radius:19px;background:#111;aspect-ratio:8/5}.mechanism-caption{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.mechanism-caption div{padding:15px;border:1px solid #ffffff24;border-radius:14px;color:#dce5df}.mechanism-caption b{display:block;color:var(--lime);margin-bottom:5px}.mechanism-caption small{color:#9baba2;line-height:1.45}.animation-download{display:flex;justify-content:flex-end;margin-top:13px}.animation-download a{color:white;border:1px solid #ffffff30;border-radius:999px;padding:10px 15px;font-size:13px}
+    .mech-layout{display:grid;grid-template-columns:260px 1fr;gap:24px;margin-top:38px}.mech-controls{display:flex;flex-direction:column;gap:10px}
+    .mech-step{border:1px solid #cbd1c8;background:#f8f7f1;border-radius:17px;padding:16px;text-align:left;cursor:pointer}.mech-step b{display:block;margin-bottom:5px}.mech-step span{font-size:13px;color:var(--muted)}.mech-step.active{background:var(--green);color:white;border-color:var(--green)}.mech-step.active span{color:#d5ebe2}
+    .mech-play{margin-top:8px;border:0;border-radius:999px;padding:12px;background:var(--ink);color:white;font-weight:900;cursor:pointer}
+    .mech-stage{min-height:485px;border-radius:26px;background:#17231e;position:relative;overflow:hidden;color:white;box-shadow:var(--shadow)}
+    .mech-title{position:absolute;left:24px;top:20px;z-index:4}.mech-title small{color:#9bad9f}.mech-state{font-weight:900;color:var(--lime);margin-top:4px}
+    .mech-svg{position:absolute;inset:68px 18px 15px;width:calc(100% - 36px);height:calc(100% - 83px)}
+    .mech-svg text{font:700 13px "Microsoft YaHei",sans-serif;fill:#dfe9e3}.mech-svg .call{stroke:#73877c;stroke-width:2;stroke-dasharray:5 5}.mech-svg .steel{fill:#798780;stroke:#d4ddd7;stroke-width:3}.mech-svg .darksteel{fill:#38473f;stroke:#91a39a;stroke-width:3}.mech-svg .moving{transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+    .mech-svg .rod{stroke:#f56b3a;stroke-width:9;stroke-linecap:round;transition:.55s}.mech-svg .spring{fill:none;stroke:#b7e44a;stroke-width:5}.mech-svg .force{fill:none;stroke:#f6d34a;stroke-width:5;marker-end:url(#arrow);opacity:0;transition:.3s}
+    .mech-stage[data-mech="1"] .pressure{transform:translateY(24px)}.mech-stage[data-mech="1"] .force{opacity:1}
+    .mech-stage[data-mech="2"] .pressure{transform:translateY(24px)}.mech-stage[data-mech="2"] .bell{transform:rotate(28deg);transform-origin:395px 282px}.mech-stage[data-mech="2"] .pullrod{transform:translateX(46px)}
+    .mech-stage[data-mech="2"] .jaws{transform:scaleX(.68);transform-origin:205px 155px}.mech-stage[data-mech="3"] .release-pedal{transform:rotate(18deg);transform-origin:690px 255px}.mech-stage[data-mech="3"] .release-force{opacity:1}.mech-stage[data-mech="3"] .pullrod{transform:translateX(8px)}
+    .parts{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:18px}.part{background:#f8f7f1;border:1px solid #cbd1c8;border-radius:14px;padding:13px}.part b{font-size:13px}.part small{display:block;color:var(--muted);margin-top:4px}
+    .traction-detail{margin-top:20px;background:#fffdf7;border:1px solid #cbd1c8;border-radius:24px;padding:24px;overflow:hidden}.traction-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:14px}.traction-head h3{font-size:24px;margin:0}.traction-head p{margin:0;color:var(--muted);font-size:14px}.traction-svg{width:100%;height:auto;display:block;background:#eef0e9;border-radius:16px}.traction-svg text{font:700 13px "Microsoft YaHei",sans-serif;fill:#26332e}.traction-svg .tline{stroke:#26332e;stroke-width:8;stroke-linecap:round}.traction-svg .thread{stroke:#718079;stroke-width:2}.traction-svg .orange{fill:#f56b3a;stroke:#9d3415;stroke-width:3}.traction-svg .green{fill:#0d6b4d;stroke:#064330;stroke-width:3}.traction-svg .silver{fill:#cad1cc;stroke:#596861;stroke-width:3}.traction-svg .tmove{transition:transform .55s cubic-bezier(.2,.8,.2,1)}.traction-svg .flow{stroke:#f56b3a;stroke-width:4;stroke-dasharray:10 7;opacity:0;transition:.3s}.traction-detail[data-traction="2"] .tmove{transform:translateX(42px)}.traction-detail[data-traction="2"] .flow,.traction-detail[data-traction="3"] .flow{opacity:1;animation:dash .8s linear infinite}.traction-detail[data-traction="3"] .tmove{transform:translateX(8px)}.traction-detail[data-traction="3"] .output-lever{transform:rotate(20deg);transform-origin:825px 170px}@keyframes dash{to{stroke-dashoffset:-34}}
+    .modules{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .innovation{max-width:none;background:#f56b3a;color:#17221e}.innovation-inner{max-width:1180px;margin:auto;padding:88px 24px}.innovation .eyebrow{color:#17221e}.innovation .eyebrow:before{background:#17221e}.innovation-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:40px}.innovation-card{background:#fff9ec;border:2px solid #17221e;border-radius:22px;padding:25px;min-height:245px;position:relative;overflow:hidden}.innovation-card:nth-child(1),.innovation-card:nth-child(2){grid-column:span 6}.innovation-card:nth-child(n+3){grid-column:span 4}.innovation-card .tag{display:inline-block;border:1px solid #17221e;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:900}.innovation-card h3{font-size:25px;line-height:1.15;margin:42px 0 11px;max-width:330px}.innovation-card p{line-height:1.65;margin:0;color:#53605a}.innovation-card .big-no{position:absolute;right:17px;top:10px;font-size:72px;font-weight:900;opacity:.09}.innovation-card.dark{background:#17221e;color:white}.innovation-card.dark .tag{border-color:#b7e44a;color:#b7e44a}.innovation-card.dark p{color:#b4c0ba}
+    .module{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;min-height:280px;position:relative;overflow:hidden}
+    .num{font-size:70px;line-height:1;font-weight:900;color:#e7e3d7;position:absolute;right:20px;top:15px}.module h3{font-size:23px;margin:120px 0 12px}.module p{color:var(--muted);line-height:1.7;margin:0}.icon{position:absolute;left:28px;top:34px;width:72px;height:72px;border-radius:20px;background:var(--lime);display:grid;place-items:center;font-size:32px}
+    .metrics{background:var(--ink);color:white;max-width:none}.metrics-inner{max-width:1180px;margin:auto;padding:88px 24px}.metrics h2{max-width:680px}
+    .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#ffffff25;margin-top:45px;border:1px solid #ffffff25}
+    .metric{padding:28px;background:var(--ink)}.metric b{font-size:34px;color:var(--lime);display:block;margin-bottom:8px}.metric span{color:#aebbb5;font-size:14px}
+    footer{max-width:1180px;margin:auto;padding:42px 24px 55px;display:flex;justify-content:space-between;color:var(--muted);font-size:13px}
+    @media(max-width:820px){.nav-links{display:none}.hero{grid-template-columns:1fr}.hero-visual{min-height:430px}.model-grid,.demo,.mech-layout{grid-template-columns:1fr}.mechanism-caption{grid-template-columns:1fr 1fr}.innovation-card:nth-child(n){grid-column:span 12}.steps{display:grid;grid-template-columns:repeat(3,1fr)}.mech-controls{display:grid;grid-template-columns:repeat(2,1fr)}.step{padding:14px}.step.active{transform:none}.modules{grid-template-columns:1fr}.parts{grid-template-columns:repeat(3,1fr)}.traction-head{align-items:start;flex-direction:column}.metric-grid{grid-template-columns:1fr 1fr}.section-head{align-items:start;flex-direction:column}.bike{width:48%}}
+    @media(max-width:540px){h1{font-size:55px}.hero{margin-top:12px}.hero-visual{min-height:360px}.parking-scene{inset:65px 10px 25px}.label{display:none}.steps{grid-template-columns:1fr}.stage{min-height:410px}.vehicle-switch{top:82px;left:28px;right:auto}.diagram{left:3%;right:3%}.metric-grid{grid-template-columns:1fr}.nav-links{display:none}.modules{grid-template-columns:1fr}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <nav><a class="brand" href="#top">泊<i>齐</i> POQI</a><div class="nav-links"><a href="#model3d">3D模型</a><a href="#mechanism">3D传动演示</a><a href="#innovation">设计创新</a><a href="#modules">模块组成</a></div></nav>
+
+  <main id="top">
+    <header class="hero">
+      <div>
+        <span class="eyebrow">MODULAR PARKING SYSTEM</span>
+        <h1>停得更齐，<span>取车更轻松。</span></h1>
+        <p class="lead">将错层车把、自回正导轨与脚踏快速解锁合为一个可拼接单元，在不改装车辆的前提下，改善电瓶车停放拥堵。</p>
+        <div class="actions"><a class="btn primary" href="#principle">查看运行演示</a><a class="btn" href="#test">了解验证方法</a></div>
+      </div>
+      <div class="hero-visual" aria-label="两辆电瓶车错位停放示意图">
+        <div class="label l1">01 · 自动对正</div><div class="label l2">02 · 车把错层</div><div class="label l3">03 · 脚踏快速解锁</div>
+        <div class="parking-scene"><div class="ground"></div>
+          <div class="guide g1"></div><div class="guide g2"></div>
+          <div class="bike a"><div class="wheel back"></div><div class="wheel front"></div><div class="frame"></div><div class="seat"></div><div class="handle"></div></div>
+          <div class="bike b"><div class="wheel back"></div><div class="wheel front"></div><div class="frame"></div><div class="seat"></div><div class="handle"></div></div>
+        </div>
+      </div>
+    </header>
+
+    <section class="model-section" id="model3d"><div class="model-inner">
+      <div class="section-head"><div><span class="eyebrow" style="color:var(--lime)">REAL 3D ASSEMBLY</span><h2>真正的机械三维装配。</h2></div><p style="color:#afbeb6">拖动滑块环绕查看装置。模型采用独立零件构建，可在 Blender 中继续调整尺寸、材质、机构位置与运动关键帧。</p></div>
+      <div class="model-grid">
+        <div class="turntable">
+          <span class="angle-badge"><b class="angle-number">视角 1</b> / 8</span>
+          <img class="turntable-image" src="3d_model/view_01.webp" alt="停车辅助机械装置三维模型视角">
+          <div class="viewer-controls"><button class="angle-prev" aria-label="上一个视角">‹</button><input class="angle-slider" type="range" min="1" max="8" value="1" step="1" aria-label="旋转模型视角"><button class="angle-next" aria-label="下一个视角">›</button></div>
+        </div>
+        <div class="model-info">
+          <div class="model-card"><h3>装配包含</h3><ul><li>底板与地脚安装孔</li><li>V形导向轨及夹轮立板</li><li>双侧包胶夹爪与同步横轴</li><li>承压踏板、曲柄和连杆</li><li>复位拉簧及调节套筒</li><li>脚踏快速解锁总成</li></ul></div>
+          <div class="model-card"><h3>下载模型</h3><a class="download" href="3d_model/parking_assist_device_innovations.blend" download><span>创新版 Blender 源文件</span><small>.BLEND ↓</small></a><a class="download" href="3d_model/parking_assist_device_innovations.glb" download><span>创新版通用三维模型</span><small>.GLB ↓</small></a></div>
+          <div class="model-card"><h3>当前尺寸基准</h3><p>底板约 1180 × 480 mm；模型按米制单位构建。活动件以橙色表示，导向和复位件以绿色表示。</p></div>
+        </div>
+      </div>
+    </div></section>
+
+    <section id="principle">
+      <div class="section-head"><h2>一次推入，完成三步。</h2><p>点击步骤观察装置状态变化。整个过程采用纯机械反馈，无需电源、网络或手机应用。</p></div>
+      <div class="demo">
+        <div class="steps" role="tablist">
+          <button class="step active" data-state="0"><strong>01 导入</strong><small>喇叭口收拢车辆行进方向</small></button>
+          <button class="step" data-state="1"><strong>02 对正</strong><small>前轮沿导轨进入车位中心</small></button>
+          <button class="step" data-state="2"><strong>03 到位</strong><small>夹爪稳定前轮，踩踏即可释放</small></button>
+        </div>
+        <div class="stage" data-state="0" data-vehicle="ebike" aria-live="polite">
+          <div class="stage-top"><div><small>当前状态</small><div class="status">等待车辆进入</div></div></div>
+          <div class="vehicle-switch" aria-label="选择演示车型"><button class="active" data-vehicle="ebike">电瓶车</button><button data-vehicle="bike">自行车</button></div>
+          <div class="diagram"><div class="rail"></div><div class="clamp"></div>
+            <img class="vehicle-photo ebike-real" src="assets/ebike-real.jpg" alt="真实电动自行车侧视照片">
+            <img class="vehicle-photo bicycle-real" src="assets/bicycle-real.jpg" alt="真实自行车侧视照片">
+            <svg class="vehicle-3d" viewBox="0 0 520 285" role="img" aria-label="具有前后双轮与真实结构细节的车辆模型">
+              <defs>
+                <linearGradient id="battery3d" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#27906d"/><stop offset=".55" stop-color="#0d6b4d"/><stop offset="1" stop-color="#064a35"/></linearGradient>
+                <linearGradient id="orange3d" x1="0" x2="1"><stop stop-color="#ff9168"/><stop offset=".5" stop-color="#f56b3a"/><stop offset="1" stop-color="#b83e19"/></linearGradient>
+                <radialGradient id="lamp" cx="35%" cy="30%"><stop stop-color="#fffbd6"/><stop offset=".5" stop-color="#f6de63"/><stop offset="1" stop-color="#d5a20a"/></radialGradient>
+              </defs>
+              <g class="ebike-model">
+                <ellipse cx="247" cy="263" rx="210" ry="16" fill="#25352d" opacity=".16"/>
+                <g transform="translate(10 4)">
+                  <ellipse class="wheel-side" cx="112" cy="205" rx="73" ry="71" transform="translate(-7 5)"/>
+                  <circle class="wheel-rim" cx="112" cy="205" r="68"/><circle class="hub" cx="112" cy="205" r="13"/>
+                  <path class="spoke" d="M112 142v126M49 205h126M68 161l89 89M68 249l89-89"/>
+                  <ellipse class="wheel-side" cx="408" cy="205" rx="73" ry="71" transform="translate(-7 5)"/>
+                  <circle class="wheel-rim" cx="408" cy="205" r="68"/><circle class="hub" cx="408" cy="205" r="13"/>
+                  <path class="spoke" d="M408 142v126M345 205h126M364 161l89 89M364 249l89-89"/>
+                  <path d="M67 163 Q112 112 161 160" fill="none" stroke="#26332e" stroke-width="8" stroke-linecap="round"/>
+                  <path d="M361 160 Q408 111 456 160" fill="none" stroke="#26332e" stroke-width="8" stroke-linecap="round"/>
+                  <path class="frame-orange" d="M112 205 L196 187 L327 190 L408 205 M194 187 L226 116 L345 126 L327 190"/>
+                  <path d="M199 177h130l-17 61H184z" fill="url(#battery3d)" stroke="#063e2d" stroke-width="5"/>
+                  <path d="M207 187h92" stroke="#8bdbb8" stroke-width="4" opacity=".75"/><circle cx="295" cy="201" r="5" fill="#b7e44a"/>
+                  <path class="metal" d="M327 190 L352 83 L383 45 M352 83 L421 74"/>
+                  <path d="M376 42h71" stroke="#17221e" stroke-width="10" stroke-linecap="round"/><path d="M420 74l-12 131" stroke="#3d4944" stroke-width="7"/>
+                  <path d="M215 119l-8-31" stroke="#25332d" stroke-width="8"/><path class="detail" d="M174 80h86q14 0 8 13l-9 15h-89q-17 0-14-12t18-16z"/>
+                  <path d="M131 142l32-22 35 4" fill="none" stroke="#65716b" stroke-width="7"/><rect x="99" y="113" width="64" height="22" rx="10" fill="#17221e"/>
+                  <circle cx="381" cy="84" r="18" fill="url(#lamp)" stroke="#313d37" stroke-width="6"/><rect x="420" y="64" width="34" height="19" rx="8" fill="#242f2a"/>
+                  <circle class="chrome" cx="263" cy="219" r="17"/><path d="M263 219l31 17m-31-17l-30-18" stroke="#3a4640" stroke-width="6" stroke-linecap="round"/>
+                  <path d="M144 205h-42" stroke="#17221e" stroke-width="7"/><path d="M409 205h44" stroke="#17221e" stroke-width="7"/>
+                </g>
+              </g>
+              <g class="bicycle-model">
+                <ellipse cx="258" cy="264" rx="220" ry="15" fill="#25352d" opacity=".15"/>
+                <g>
+                  <circle class="wheel-rim" cx="105" cy="193" r="82" style="stroke-width:10"/><circle class="hub" cx="105" cy="193" r="9"/>
+                  <path class="spoke" d="M105 115v156M27 193h156M50 138l110 110M50 248l110-110M75 121l60 144M32 166l146 54M32 220l146-54M75 265l60-144"/>
+                  <circle class="wheel-rim" cx="415" cy="193" r="82" style="stroke-width:10"/><circle class="hub" cx="415" cy="193" r="9"/>
+                  <path class="spoke" d="M415 115v156M337 193h156M360 138l110 110M360 248l110-110M385 121l60 144M342 166l146 54M342 220l146-54M385 265l60-144"/>
+                  <path class="frame-green" d="M105 193 L220 188 L283 85 L331 193 L220 188 L255 118 L331 193 L415 193"/>
+                  <path class="metal" d="M331 193 L365 72 L401 48 M365 72 L423 67"/>
+                  <path d="M394 47h63" stroke="#17221e" stroke-width="9" stroke-linecap="round"/><path d="M282 85l-9-34" stroke="#25332d" stroke-width="8"/>
+                  <path class="detail" d="M240 43h76q12 0 7 12l-8 12h-78q-14 0-11-10t14-14z"/>
+                  <circle class="chrome" cx="220" cy="188" r="22"/><circle cx="220" cy="188" r="8" fill="#25332d"/><path d="M220 188l38 19m-38-19l-34-23" stroke="#3a4640" stroke-width="6" stroke-linecap="round"/><rect x="254" y="203" width="27" height="8" rx="4" fill="#17221e" transform="rotate(8 254 203)"/><rect x="159" y="157" width="27" height="8" rx="4" fill="#17221e" transform="rotate(8 159 157)"/>
+                  <path d="M105 193l115-5 111 5" fill="none" stroke="#a8afa9" stroke-width="3"/><path d="M105 193l110 7" stroke="#a8afa9" stroke-width="3"/>
+                  <path d="M83 111 Q105 101 127 111M393 111 Q415 101 437 111" fill="none" stroke="#38433e" stroke-width="6"/>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mechanism" id="mechanism"><div class="mechanism-inner">
+      <div class="section-head"><h2>完整3D机械传动演示。</h2><p>视频由真实三维装配模型渲染：前轮、压板、夹爪、拉杆和脚踏解锁器均在三维空间中按机构时间轴运动。</p></div>
+      <div class="mechanism3d">
+        <video controls autoplay muted loop playsinline poster="3d_model/parking_device_preview.png"><source src="3d_model/mechanism_3d_demo.mp4" type="video/mp4">浏览器不支持视频播放。</video>
+        <div class="mechanism-caption"><div><b>01 前轮进入</b><small>轮胎沿V形导轨进入夹持区域</small></div><div><b>02 自动夹持</b><small>压板下沉，双侧包胶夹爪同步靠拢</small></div><div><b>03 稳定停放</b><small>双向拉杆保持夹爪位置</small></div><div><b>04 脚踏解锁</b><small>踏板下压，夹爪复位并释放前轮</small></div></div>
+        <div class="animation-download"><a href="3d_model/parking_assist_device_innovations_animated.blend" download>下载创新版关键帧动画源文件 ↓</a></div>
+      </div>
+      <div class="mech-layout">
+        <div class="mech-controls">
+          <button class="mech-step active" data-mech="0"><b>00 待机</b><span>夹爪张开，机构处于复位状态</span></button>
+          <button class="mech-step" data-mech="1"><b>01 前轮压入</b><span>轮胎推动承压踏板下沉</span></button>
+          <button class="mech-step" data-mech="2"><b>02 自动夹持</b><span>曲柄牵引拉杆，夹爪包住前轮</span></button>
+          <button class="mech-step" data-mech="3"><b>03 脚踏解锁</b><span>踩下侧踏板，反向释放夹爪</span></button>
+          <button class="mech-play" type="button">▶ 连续播放传动</button>
+        </div>
+        <div class="mech-stage" data-mech="0">
+          <div class="mech-title"><small>剖视传动状态</small><div class="mech-state">空位待机 · 全机构复位</div></div>
+          <svg class="mech-svg" viewBox="0 0 820 400" role="img" aria-label="停车装置压板、夹轮器、钟形曲柄、拉杆、弹簧和脚踏解锁机构传动剖视图">
+            <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6z" fill="#f6d34a"/></marker></defs>
+            <path d="M40 330H780" stroke="#b9c5be" stroke-width="8"/><path d="M85 329V205Q85 180 110 180H300Q325 180 325 205V329" fill="none" stroke="#73857b" stroke-width="17"/>
+            <path d="M118 185L198 315M292 185L212 315" stroke="#b7e44a" stroke-width="10" stroke-linecap="round" opacity=".7"/>
+            <g class="moving pressure"><rect class="steel" x="145" y="205" width="120" height="24" rx="10"/><path d="M160 205L183 165H227L250 205" class="darksteel"/><text x="160" y="154">承压踏板</text><path class="call" d="M205 160V125"/></g>
+            <g class="moving bell"><circle class="steel" cx="395" cy="282" r="34"/><path d="M395 282L356 218M395 282L452 262" class="rod"/><circle cx="395" cy="282" r="10" fill="#18201d"/><text x="350" y="345">钟形曲柄</text><path class="call" d="M395 320V337"/></g>
+            <path class="rod" d="M250 219L356 218"/><g class="moving pullrod"><path class="rod" d="M452 262H610"/><path class="spring" d="M485 262l10-14 10 28 10-28 10 28 10-28 10 28 10-14"/><text x="490" y="242">复位拉簧</text></g>
+            <g class="moving release-pedal"><path d="M610 262L690 255" class="rod"/><circle class="steel" cx="690" cy="255" r="13"/><path d="M690 255L747 230" stroke="#c8d1cc" stroke-width="14" stroke-linecap="round"/><rect x="732" y="205" width="72" height="29" rx="8" fill="#f56b3a" stroke="#ffc0a8" stroke-width="4"/><text x="745" y="225" style="fill:#17231e">踩下解锁</text></g><path class="force release-force" d="M770 175v35"/>
+            <g class="moving jaws"><path d="M185 180L145 130M225 180L265 130" stroke="#f56b3a" stroke-width="18" stroke-linecap="round"/><path d="M145 130l-28-20M265 130l28-20" stroke="#f56b3a" stroke-width="28" stroke-linecap="round"/></g>
+            <ellipse cx="205" cy="96" rx="53" ry="82" fill="#f5f2e9" stroke="#17221e" stroke-width="18"/><ellipse cx="205" cy="96" rx="12" ry="24" fill="#88958e"/>
+            <path class="force" d="M205 24V90"/><text x="48" y="65">① 前轮</text><path class="call" d="M91 70L150 86"/><text x="55" y="285">② 导向槽钢</text><path class="call" d="M145 290L87 276"/><text x="650" y="65">⑥ 脚踏解锁器</text><path class="call" d="M712 72L760 205"/><text x="510" y="300">⑤ 双向拉杆</text><path class="call" d="M575 292L580 265"/>
+          </svg>
+        </div>
+      </div>
+      <div class="traction-detail" data-traction="0">
+        <div class="traction-head"><div><small class="eyebrow">TRACTION ASSEMBLY</small><h3>夹持与解锁共用牵引总成</h3></div><p>曲柄输出 → 叉形接头 → M8螺纹拉杆 → 调节套筒 → 复位拉簧 → 解锁摇臂</p></div>
+        <svg class="traction-svg" viewBox="0 0 940 300" role="img" aria-label="牵引总成零件连接与运动关系放大图">
+          <defs><marker id="tarrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6z" fill="#f56b3a"/></marker></defs>
+          <path d="M40 232H900" stroke="#c2c9c4" stroke-width="7"/><rect x="55" y="212" width="110" height="20" rx="5" class="silver"/><circle cx="115" cy="170" r="35" class="silver"/><path d="M115 170L166 145" class="tline"/><circle cx="166" cy="145" r="10" fill="#17231e"/>
+          <g class="tmove">
+            <path d="M176 126v38h43v-38M176 145h-18" fill="none" stroke="#f56b3a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="176" cy="145" r="7" fill="#e6ece7" stroke="#17231e" stroke-width="3"/>
+            <path d="M219 145H430" class="tline"/><path class="thread" d="M240 134v22m12-22v22m12-22v22m12-22v22m12-22v22m12-22v22"/>
+            <path d="M325 124h82l23 21-23 21h-82l-23-21z" class="silver"/><path d="M340 130l14 30m14-30l14 30m14-30l14 30" stroke="#718079" stroke-width="3"/>
+            <path d="M430 145H505" class="tline"/>
+            <path d="M505 145l15-21 15 42 15-42 15 42 15-42 15 42 15-21" fill="none" stroke="#0d6b4d" stroke-width="7" stroke-linejoin="round"/>
+            <path d="M600 145H720" class="tline"/>
+            <path d="M685 126v38h44v-38M729 145h18" fill="none" stroke="#f56b3a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="729" cy="145" r="7" fill="#e6ece7" stroke="#17231e" stroke-width="3"/>
+          </g>
+          <g class="output-lever tmove"><circle cx="825" cy="170" r="31" class="silver"/><path d="M825 170L747 145M825 170l31-66" class="tline"/><circle cx="825" cy="170" r="9" fill="#17231e"/></g>
+          <path d="M175 95H725" class="flow" marker-end="url(#tarrow)"/>
+          <text x="64" y="275">① 曲柄输出端</text><path d="M115 250v-42" stroke="#7b8982" stroke-dasharray="4 4"/>
+          <text x="158" y="52">② 叉形接头＋销轴</text><path d="M205 60v62" stroke="#7b8982" stroke-dasharray="4 4"/>
+          <text x="306" y="205">③ M8拉杆＋调节套筒</text><path d="M370 190v-20" stroke="#7b8982" stroke-dasharray="4 4"/>
+          <text x="500" y="205">④ 复位拉簧</text><path d="M548 190v-25" stroke="#7b8982" stroke-dasharray="4 4"/>
+          <text x="655" y="275">⑤ 防松螺母＋叉头</text><path d="M708 250v-82" stroke="#7b8982" stroke-dasharray="4 4"/>
+          <text x="778" y="52">⑥ 脚踏解锁摇臂</text><path d="M830 60v38" stroke="#7b8982" stroke-dasharray="4 4"/>
+          <rect x="470" y="121" width="23" height="48" rx="5" class="green"/><path d="M481 170v62" stroke="#0d6b4d" stroke-width="7"/><text x="429" y="275">固定导向套</text>
+        </svg>
+      </div>
+      <div class="parts"><div class="part"><b>① V形导向槽</b><small>3 mm折弯钢板</small></div><div class="part"><b>② 承压踏板</b><small>铰链＋防滑面</small></div><div class="part"><b>③ 弹性夹爪</b><small>包胶滚轮接触轮胎</small></div><div class="part"><b>④ 钟形曲柄</b><small>改变力的方向</small></div><div class="part"><b>⑤ 双向拉杆</b><small>夹持与释放共用</small></div><div class="part"><b>⑥ 解锁踏板</b><small>踩下即可轻松取车</small></div></div>
+    </div></section>
+
+    <section class="innovation" id="innovation"><div class="innovation-inner">
+      <div class="section-head"><div><span class="eyebrow">DESIGN INNOVATION</span><h2>创新不靠堆功能，<br>而靠减少使用阻力。</h2></div><p>五项创新都对应真实停车动作：推入、对正、夹持、取车和维护，不增加App、电源或学习成本。</p></div>
+      <div class="innovation-grid">
+        <article class="innovation-card dark"><span class="big-no">01</span><span class="tag">结构创新</span><h3>渐缩导向＋浮动夹爪，自适应不同轮宽</h3><p>喇叭口先吸收停车角度误差，包胶夹轮再沿摆臂浮动靠拢；自行车窄胎和电瓶车宽胎共用同一停车单元。</p></article>
+        <article class="innovation-card"><span class="big-no">02</span><span class="tag">传动创新</span><h3>一套双向拉杆，同时负责夹持与解锁</h3><p>车辆压入时拉杆正向完成夹持，脚踏时反向释放夹爪，减少独立机构、零件数量和潜在故障点。</p></article>
+        <article class="innovation-card"><span class="big-no">03</span><span class="tag">省力创新</span><h3>储能助力式推车导轨</h3><p>前轮压入时缓慢压缩助力弹簧；取车时踩下解锁踏板，弹簧释放部分能量，为重型电瓶车提供短距离起步推力，避免突然弹出。</p></article>
+        <article class="innovation-card"><span class="big-no">04</span><span class="tag">安全创新</span><h3>低位侧撑，阻断连锁倾倒</h3><p>导轨两侧增加不干涉脚踏的低位限倾支撑；车辆侧倾到安全角度后由独立支撑承载，不把侧向冲击传递给相邻车辆。</p></article>
+        <article class="innovation-card dark"><span class="big-no">05</span><span class="tag">环境创新</span><h3>排水、防沙与自清洁导轨</h3><p>底板设置纵向坡度、排水槽和落砂孔；踏板每次下压都会带动柔性刮片扫过运动缝隙，减少积水、树叶和砂石造成的卡滞。</p></article>
+      </div>
+    </div></section>
+
+    <section id="modules">
+      <div class="section-head"><h2>三个模块，一套秩序。</h2><p>结构可按场地连续拼接；相邻挡轮器前后错位，让车把与后视镜自然避让。</p></div>
+      <div class="modules">
+        <article class="module"><span class="num">01</span><div class="icon">⌄</div><h3>自回正导轨</h3><p>宽入口、窄出口的喇叭形结构容许一定停车误差，并将前轮温和引导至中心。</p></article>
+        <article class="module"><span class="num">02</span><div class="icon">↕</div><h3>错层式布局</h3><p>相邻车辆前后错开约 15–25 cm，使车把互不干涉，提高单位长度的停车容量。</p></article>
+        <article class="module"><span class="num">03</span><div class="icon">↘</div><h3>脚踏快速解锁</h3><p>取车时踩下侧边踏板，拉杆反向释放夹爪，无需弯腰操作，也不会夹伤手指。</p></article>
+      </div>
+    </section>
+
+    <section class="metrics" id="test"><div class="metrics-inner">
+      <span class="eyebrow" style="color:var(--lime)">PROTOTYPE VALIDATION</span><h2>用可测量的数据证明设计有效。</h2>
+      <div class="metric-grid"><div class="metric"><b>容量</b><span>单位长度可停放车辆数</span></div><div class="metric"><b>效率</b><span>平均停车与取车时间</span></div><div class="metric"><b>秩序</b><span>越线率与通道占用率</span></div><div class="metric"><b>适配</b><span>不同轮宽与车型通过率</span></div></div>
+    </div></section>
+  </main>
+  <footer><span>泊齐 POQI · 创新设计课程原型</span><span>实拍图：<a href="https://commons.wikimedia.org/wiki/File:Bike-side.jpg">MartinThoma / CC0</a>；<a href="https://commons.wikimedia.org/wiki/File:Lulu_Bike_Electric_side_view.jpg">Glurois / CC BY-SA 4.0</a></span></footer>
+  <script>
+    const copy=["等待车辆进入","导轨正在校正前轮","车辆已稳定到位"];
+    const stage=document.querySelector('.stage');
+    document.querySelectorAll('.step').forEach(button=>button.addEventListener('click',()=>{
+      document.querySelectorAll('.step').forEach(item=>item.classList.remove('active'));
+      button.classList.add('active');
+      const state=button.dataset.state; stage.dataset.state=state;
+      const vehicleName=stage.dataset.vehicle==='bike'?'自行车':'电瓶车';
+      stage.querySelector('.status').textContent=`${vehicleName} · ${copy[Number(state)]}`;
+    }));
+    document.querySelectorAll('.vehicle-switch button').forEach(button=>button.addEventListener('click',()=>{
+      document.querySelectorAll('.vehicle-switch button').forEach(item=>item.classList.remove('active'));
+      button.classList.add('active'); stage.dataset.vehicle=button.dataset.vehicle;
+      const name=button.dataset.vehicle==='bike'?'自行车':'电瓶车';
+      stage.querySelector('.status').textContent=`${name} · ${copy[Number(stage.dataset.state)]}`;
+    }));
+    const mechStage=document.querySelector('.mech-stage');
+    const mechCopy=['待机 · 夹爪张开','车轮下压 · 承压板开始运动','自动夹持 · 拉杆带动夹爪闭合','脚踏解锁 · 拉杆反向释放夹爪'];
+    const setMech=state=>{
+      mechStage.dataset.mech=state;
+      document.querySelector('.traction-detail').dataset.traction=state;
+      document.querySelectorAll('.mech-step').forEach((item,index)=>item.classList.toggle('active',index===state));
+      document.querySelector('.mech-state').textContent=mechCopy[state];
+    };
+    document.querySelectorAll('.mech-step').forEach(button=>button.addEventListener('click',()=>setMech(Number(button.dataset.mech))));
+    let mechTimer;
+    document.querySelector('.mech-play').addEventListener('click',event=>{
+      clearInterval(mechTimer); let state=0; setMech(state); event.currentTarget.textContent='■ 正在播放传动';
+      mechTimer=setInterval(()=>{state+=1;setMech(state);if(state===3){clearInterval(mechTimer);event.currentTarget.textContent='↻ 再次播放传动';}},900);
+    });
+    const angleSlider=document.querySelector('.angle-slider');
+    const setAngle=value=>{
+      const angle=Math.max(1,Math.min(8,Number(value)));
+      angleSlider.value=angle;
+      document.querySelector('.turntable-image').src=`3d_model/view_${String(angle).padStart(2,'0')}.webp`;
+      document.querySelector('.angle-number').textContent=`视角 ${angle}`;
+    };
+    angleSlider.addEventListener('input',event=>setAngle(event.target.value));
+    document.querySelector('.angle-prev').addEventListener('click',()=>setAngle(Number(angleSlider.value)===1?8:Number(angleSlider.value)-1));
+    document.querySelector('.angle-next').addEventListener('click',()=>setAngle(Number(angleSlider.value)===8?1:Number(angleSlider.value)+1));
+  </script>
+</body>
+</html>
