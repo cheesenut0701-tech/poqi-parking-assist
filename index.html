@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>泊齐｜模块化电瓶车停车辅助装置</title>
-  <meta name="description" content="错层车把、自回正导轨与机械车位指示相结合的模块化电瓶车停车方案。">
+  <meta name="description" content="低矮嵌入式导轨、隐藏解锁、排水防卡与手机空位导航相结合的模块化停车方案。">
   <style>
     :root{
       --ink:#18201d;--muted:#64706a;--paper:#f5f2e9;--card:#fffdf7;
@@ -69,7 +69,7 @@
     .stage[data-state="1"] .vehicle-photo,.stage[data-state="2"] .vehicle-photo{left:34%;transform:rotateY(-3deg) scale(.98)}
     .stage[data-state="2"] .clamp{opacity:1}.stage[data-state="2"] .rail{opacity:.7}
     .mechanism{background:#e8ebe2;max-width:none}.mechanism-inner{max-width:1180px;margin:auto;padding:88px 24px}
-    .mechanism .mech-layout,.mechanism .traction-detail{display:none}.mechanism3d{margin-top:38px;background:#111815;border-radius:28px;padding:18px;box-shadow:var(--shadow)}.mechanism3d video{width:100%;display:block;border-radius:19px;background:#111;aspect-ratio:8/5}.mechanism-caption{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.mechanism-caption div{padding:15px;border:1px solid #ffffff24;border-radius:14px;color:#dce5df}.mechanism-caption b{display:block;color:var(--lime);margin-bottom:5px}.mechanism-caption small{color:#9baba2;line-height:1.45}.animation-download{display:flex;justify-content:flex-end;margin-top:13px}.animation-download a{color:white;border:1px solid #ffffff30;border-radius:999px;padding:10px 15px;font-size:13px}
+    .mechanism .mech-layout,.mechanism .traction-detail{display:none}.mechanism3d{margin-top:38px;background:#111815;border-radius:28px;padding:18px;box-shadow:var(--shadow)}.mechanism3d video,.mechanism3d>img{width:100%;display:block;border-radius:19px;background:#111;aspect-ratio:8/5;object-fit:cover}.mechanism-caption{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.mechanism-caption div{padding:15px;border:1px solid #ffffff24;border-radius:14px;color:#dce5df}.mechanism-caption b{display:block;color:var(--lime);margin-bottom:5px}.mechanism-caption small{color:#9baba2;line-height:1.45}.animation-download{display:flex;justify-content:flex-end;margin-top:13px}.animation-download a{color:white;border:1px solid #ffffff30;border-radius:999px;padding:10px 15px;font-size:13px}
     .mech-layout{display:grid;grid-template-columns:260px 1fr;gap:24px;margin-top:38px}.mech-controls{display:flex;flex-direction:column;gap:10px}
     .mech-step{border:1px solid #cbd1c8;background:#f8f7f1;border-radius:17px;padding:16px;text-align:left;cursor:pointer}.mech-step b{display:block;margin-bottom:5px}.mech-step span{font-size:13px;color:var(--muted)}.mech-step.active{background:var(--green);color:white;border-color:var(--green)}.mech-step.active span{color:#d5ebe2}
     .mech-play{margin-top:8px;border:0;border-radius:999px;padding:12px;background:var(--ink);color:white;font-weight:900;cursor:pointer}
@@ -87,29 +87,30 @@
     .innovation{max-width:none;background:#f56b3a;color:#17221e}.innovation-inner{max-width:1180px;margin:auto;padding:88px 24px}.innovation .eyebrow{color:#17221e}.innovation .eyebrow:before{background:#17221e}.innovation-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:40px}.innovation-card{background:#fff9ec;border:2px solid #17221e;border-radius:22px;padding:25px;min-height:245px;position:relative;overflow:hidden}.innovation-card:nth-child(1),.innovation-card:nth-child(2){grid-column:span 6}.innovation-card:nth-child(n+3){grid-column:span 4}.innovation-card .tag{display:inline-block;border:1px solid #17221e;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:900}.innovation-card h3{font-size:25px;line-height:1.15;margin:42px 0 11px;max-width:330px}.innovation-card p{line-height:1.65;margin:0;color:#53605a}.innovation-card .big-no{position:absolute;right:17px;top:10px;font-size:72px;font-weight:900;opacity:.09}.innovation-card.dark{background:#17221e;color:white}.innovation-card.dark .tag{border-color:#b7e44a;color:#b7e44a}.innovation-card.dark p{color:#b4c0ba}
     .module{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;min-height:280px;position:relative;overflow:hidden}
     .num{font-size:70px;line-height:1;font-weight:900;color:#e7e3d7;position:absolute;right:20px;top:15px}.module h3{font-size:23px;margin:120px 0 12px}.module p{color:var(--muted);line-height:1.7;margin:0}.icon{position:absolute;left:28px;top:34px;width:72px;height:72px;border-radius:20px;background:var(--lime);display:grid;place-items:center;font-size:32px}
+    .smart{max-width:none;background:#dcece6}.smart-inner{max-width:1180px;margin:auto;padding:88px 24px}.smart-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:34px;align-items:center}.phone{width:min(340px,100%);margin:auto;background:#17231e;border:10px solid #17231e;border-radius:38px;padding:17px;color:white;box-shadow:var(--shadow)}.phone-top{display:flex;justify-content:space-between;color:#9cb0a5;font-size:12px;margin-bottom:18px}.phone h3{font-size:26px;margin:0 0 16px}.zone{background:#25342d;border:1px solid #ffffff18;border-radius:16px;padding:15px;margin:10px 0;display:flex;justify-content:space-between;align-items:center}.zone b{font-size:23px;color:var(--lime)}.route{margin-top:15px;background:var(--lime);color:#17231e;border-radius:999px;padding:13px;text-align:center;font-weight:900}.smart-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}.smart-step{background:#fffdf7;border:1px solid #b7ccc3;border-radius:18px;padding:20px}.smart-step b{display:block;color:var(--green);margin-bottom:8px}.smart-step p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
     .metrics{background:var(--ink);color:white;max-width:none}.metrics-inner{max-width:1180px;margin:auto;padding:88px 24px}.metrics h2{max-width:680px}
     .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#ffffff25;margin-top:45px;border:1px solid #ffffff25}
     .metric{padding:28px;background:var(--ink)}.metric b{font-size:34px;color:var(--lime);display:block;margin-bottom:8px}.metric span{color:#aebbb5;font-size:14px}
     footer{max-width:1180px;margin:auto;padding:42px 24px 55px;display:flex;justify-content:space-between;color:var(--muted);font-size:13px}
-    @media(max-width:820px){.nav-links{display:none}.hero{grid-template-columns:1fr}.hero-visual{min-height:430px}.model-grid,.demo,.mech-layout{grid-template-columns:1fr}.mechanism-caption{grid-template-columns:1fr 1fr}.innovation-card:nth-child(n){grid-column:span 12}.steps{display:grid;grid-template-columns:repeat(3,1fr)}.mech-controls{display:grid;grid-template-columns:repeat(2,1fr)}.step{padding:14px}.step.active{transform:none}.modules{grid-template-columns:1fr}.parts{grid-template-columns:repeat(3,1fr)}.traction-head{align-items:start;flex-direction:column}.metric-grid{grid-template-columns:1fr 1fr}.section-head{align-items:start;flex-direction:column}.bike{width:48%}}
+    @media(max-width:820px){.nav-links{display:none}.hero{grid-template-columns:1fr}.hero-visual{min-height:430px}.model-grid,.demo,.mech-layout,.smart-grid{grid-template-columns:1fr}.smart-flow{grid-template-columns:1fr}.mechanism-caption{grid-template-columns:1fr 1fr}.innovation-card:nth-child(n){grid-column:span 12}.steps{display:grid;grid-template-columns:repeat(3,1fr)}.mech-controls{display:grid;grid-template-columns:repeat(2,1fr)}.step{padding:14px}.step.active{transform:none}.modules{grid-template-columns:1fr}.parts{grid-template-columns:repeat(3,1fr)}.traction-head{align-items:start;flex-direction:column}.metric-grid{grid-template-columns:1fr 1fr}.section-head{align-items:start;flex-direction:column}.bike{width:48%}}
     @media(max-width:540px){h1{font-size:55px}.hero{margin-top:12px}.hero-visual{min-height:360px}.parking-scene{inset:65px 10px 25px}.label{display:none}.steps{grid-template-columns:1fr}.stage{min-height:410px}.vehicle-switch{top:82px;left:28px;right:auto}.diagram{left:3%;right:3%}.metric-grid{grid-template-columns:1fr}.nav-links{display:none}.modules{grid-template-columns:1fr}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
 <body>
   <div class="noise"></div>
-  <nav><a class="brand" href="#top">泊<i>齐</i> POQI</a><div class="nav-links"><a href="#model3d">3D模型</a><a href="#mechanism">3D传动演示</a><a href="#innovation">设计创新</a><a href="#modules">模块组成</a></div></nav>
+  <nav><a class="brand" href="#top">泊<i>齐</i> POQI</a><div class="nav-links"><a href="#model3d">3D模型</a><a href="#mechanism">3D传动演示</a><a href="#innovation">设计创新</a><a href="#smart">手机找位</a></div></nav>
 
   <main id="top">
     <header class="hero">
       <div>
         <span class="eyebrow">MODULAR PARKING SYSTEM</span>
         <h1>停得更齐，<span>取车更轻松。</span></h1>
-        <p class="lead">将错层车把、自回正导轨与脚踏快速解锁合为一个可拼接单元，在不改装车辆的前提下，改善电瓶车停放拥堵。</p>
+        <p class="lead">把导向、助力、锁止和排水机构压进低矮导轨内，侧边脚尖即可解锁；隐藏传感节点将空位同步到手机，既减少地面占用，也方便快速找车位。</p>
         <div class="actions"><a class="btn primary" href="#principle">查看运行演示</a><a class="btn" href="#test">了解验证方法</a></div>
       </div>
       <div class="hero-visual" aria-label="两辆电瓶车错位停放示意图">
-        <div class="label l1">01 · 自动对正</div><div class="label l2">02 · 车把错层</div><div class="label l3">03 · 脚踏快速解锁</div>
+        <div class="label l1">01 · 低位自动对正</div><div class="label l2">02 · 车把错层</div><div class="label l3">03 · 手机查找空位</div>
         <div class="parking-scene"><div class="ground"></div>
           <div class="guide g1"></div><div class="guide g2"></div>
           <div class="bike a"><div class="wheel back"></div><div class="wheel front"></div><div class="frame"></div><div class="seat"></div><div class="handle"></div></div>
@@ -127,15 +128,15 @@
           <div class="viewer-controls"><button class="angle-prev" aria-label="上一个视角">‹</button><input class="angle-slider" type="range" min="1" max="8" value="1" step="1" aria-label="旋转模型视角"><button class="angle-next" aria-label="下一个视角">›</button></div>
         </div>
         <div class="model-info">
-          <div class="model-card"><h3>装配包含</h3><ul><li>底板与地脚安装孔</li><li>V形导向轨及夹轮立板</li><li>双侧包胶夹爪与同步横轴</li><li>承压踏板、曲柄和连杆</li><li>复位拉簧及调节套筒</li><li>脚踏快速解锁总成</li></ul></div>
-          <div class="model-card"><h3>下载模型</h3><a class="download" href="3d_model/parking_assist_device_innovations.blend" download><span>创新版 Blender 源文件</span><small>.BLEND ↓</small></a><a class="download" href="3d_model/parking_assist_device_innovations.glb" download><span>创新版通用三维模型</span><small>.GLB ↓</small></a></div>
+          <div class="model-card"><h3>紧凑版装配包含</h3><ul><li>低矮嵌入式渐缩导轨</li><li>内藏承压板、曲柄与连杆</li><li>侧边齐平脚尖解锁片</li><li>V形下沉排水沟与集渣盒</li><li>滑台联动柔性清障刮片</li><li>隐藏占位传感器与无线节点</li></ul></div>
+          <div class="model-card"><h3>下载模型</h3><a class="download" href="3d_model/parking_assist_device_compact_smart.blend" download><span>紧凑联动版 Blender 源文件</span><small>.BLEND ↓</small></a><a class="download" href="3d_model/parking_assist_device_compact_smart.glb" download><span>紧凑联动版通用三维模型</span><small>.GLB ↓</small></a></div>
           <div class="model-card"><h3>当前尺寸基准</h3><p>底板约 1180 × 480 mm；模型按米制单位构建。活动件以橙色表示，导向和复位件以绿色表示。</p></div>
         </div>
       </div>
     </div></section>
 
     <section id="principle">
-      <div class="section-head"><h2>一次推入，完成三步。</h2><p>点击步骤观察装置状态变化。整个过程采用纯机械反馈，无需电源、网络或手机应用。</p></div>
+      <div class="section-head"><h2>一次推入，完成三步。</h2><p>机械停车功能不依赖网络；可选传感节点只负责将空位状态同步到手机，断网时仍能正常停车与取车。</p></div>
       <div class="demo">
         <div class="steps" role="tablist">
           <button class="step active" data-state="0"><strong>01 导入</strong><small>喇叭口收拢车辆行进方向</small></button>
@@ -200,11 +201,11 @@
     </section>
 
     <section class="mechanism" id="mechanism"><div class="mechanism-inner">
-      <div class="section-head"><h2>完整3D机械传动演示。</h2><p>视频由真实三维装配模型渲染：前轮、压板、夹爪、拉杆和脚踏解锁器均在三维空间中按机构时间轴运动。</p></div>
+      <div class="section-head"><h2>紧凑式3D机械传动。</h2><p>新版把承压板、拉杆和复位弹簧收进导轨内部，并用侧边齐平解锁片代替外伸大踏板，降低绊倒风险和车位占地。</p></div>
       <div class="mechanism3d">
-        <video controls autoplay muted loop playsinline poster="3d_model/parking_device_preview.png"><source src="3d_model/mechanism_3d_demo.mp4" type="video/mp4">浏览器不支持视频播放。</video>
-        <div class="mechanism-caption"><div><b>01 前轮进入</b><small>轮胎沿V形导轨进入夹持区域</small></div><div><b>02 自动夹持</b><small>压板下沉，双侧包胶夹爪同步靠拢</small></div><div><b>03 稳定停放</b><small>双向拉杆保持夹爪位置</small></div><div><b>04 脚踏解锁</b><small>踏板下压，夹爪复位并释放前轮</small></div></div>
-        <div class="animation-download"><a href="3d_model/parking_assist_device_innovations_animated.blend" download>下载创新版关键帧动画源文件 ↓</a></div>
+        <img src="3d_model/mechanism_3d_demo.webp" alt="紧凑版停车辅助装置进入、夹持、状态触发与侧边解锁的三维循环动画">
+        <div class="mechanism-caption"><div><b>01 低位导入</b><small>轮胎沿贴地渐缩导轨进入</small></div><div><b>02 自动夹持</b><small>内藏压板驱动包胶夹爪</small></div><div><b>03 状态上报</b><small>滑台触发传感器并同步空位</small></div><div><b>04 侧边解锁</b><small>脚尖轻压齐平解锁片即可取车</small></div></div>
+        <div class="animation-download"><a href="3d_model/parking_assist_device_compact_smart_animated.blend" download>下载紧凑联动版关键帧动画源文件 ↓</a></div>
       </div>
       <div class="mech-layout">
         <div class="mech-controls">
@@ -259,13 +260,14 @@
     </div></section>
 
     <section class="innovation" id="innovation"><div class="innovation-inner">
-      <div class="section-head"><div><span class="eyebrow">DESIGN INNOVATION</span><h2>创新不靠堆功能，<br>而靠减少使用阻力。</h2></div><p>五项创新都对应真实停车动作：推入、对正、夹持、取车和维护，不增加App、电源或学习成本。</p></div>
+      <div class="section-head"><div><span class="eyebrow">DESIGN INNOVATION</span><h2>结构做减法，<br>信息层做连接。</h2></div><p>机械部分缩小体积并保持离线可用；手机端只承担找空位、分区导航和异常提醒，不设置占地的现场显示牌。</p></div>
       <div class="innovation-grid">
         <article class="innovation-card dark"><span class="big-no">01</span><span class="tag">结构创新</span><h3>渐缩导向＋浮动夹爪，自适应不同轮宽</h3><p>喇叭口先吸收停车角度误差，包胶夹轮再沿摆臂浮动靠拢；自行车窄胎和电瓶车宽胎共用同一停车单元。</p></article>
         <article class="innovation-card"><span class="big-no">02</span><span class="tag">传动创新</span><h3>一套双向拉杆，同时负责夹持与解锁</h3><p>车辆压入时拉杆正向完成夹持，脚踏时反向释放夹爪，减少独立机构、零件数量和潜在故障点。</p></article>
         <article class="innovation-card"><span class="big-no">03</span><span class="tag">省力创新</span><h3>储能助力式推车导轨</h3><p>前轮压入时缓慢压缩助力弹簧；取车时踩下解锁踏板，弹簧释放部分能量，为重型电瓶车提供短距离起步推力，避免突然弹出。</p></article>
         <article class="innovation-card"><span class="big-no">04</span><span class="tag">安全创新</span><h3>低位侧撑，阻断连锁倾倒</h3><p>导轨两侧增加不干涉脚踏的低位限倾支撑；车辆侧倾到安全角度后由独立支撑承载，不把侧向冲击传递给相邻车辆。</p></article>
-        <article class="innovation-card dark"><span class="big-no">05</span><span class="tag">环境创新</span><h3>排水、防沙与自清洁导轨</h3><p>底板设置纵向坡度、排水槽和落砂孔；踏板每次下压都会带动柔性刮片扫过运动缝隙，减少积水、树叶和砂石造成的卡滞。</p></article>
+        <article class="innovation-card dark"><span class="big-no">05</span><span class="tag">环境创新</span><h3>下沉V形排水沟＋端部集渣盒</h3><p>水流与滚轮运动面分层，格栅缝排水、柔性刮片随滑台清障，砂石最终进入可抽出的侧向集渣盒。</p></article>
+        <article class="innovation-card"><span class="big-no">06</span><span class="tag">数字创新</span><h3>隐藏占位节点，手机直接找空位</h3><p>滑台微动开关判断占用状态，经低功耗无线网关同步到小程序；用户可查看分区余位和步行路线，无需每个车位配置屏幕。</p></article>
       </div>
     </div></section>
 
@@ -274,9 +276,16 @@
       <div class="modules">
         <article class="module"><span class="num">01</span><div class="icon">⌄</div><h3>自回正导轨</h3><p>宽入口、窄出口的喇叭形结构容许一定停车误差，并将前轮温和引导至中心。</p></article>
         <article class="module"><span class="num">02</span><div class="icon">↕</div><h3>错层式布局</h3><p>相邻车辆前后错开约 15–25 cm，使车把互不干涉，提高单位长度的停车容量。</p></article>
-        <article class="module"><span class="num">03</span><div class="icon">↘</div><h3>脚踏快速解锁</h3><p>取车时踩下侧边踏板，拉杆反向释放夹爪，无需弯腰操作，也不会夹伤手指。</p></article>
+        <article class="module"><span class="num">03</span><div class="icon">↘</div><h3>隐藏式脚尖解锁</h3><p>解锁片与底板侧缘齐平，脚尖轻压即可反向释放夹爪；不用弯腰，也不再向车位外伸出大踏板。</p></article>
       </div>
     </section>
+
+    <section class="smart" id="smart"><div class="smart-inner">
+      <div class="smart-grid">
+        <div class="phone"><div class="phone-top"><span>泊齐找位</span><span>园区 A</span></div><h3>附近还有 18 个空位</h3><div class="zone"><span>A1 教学楼东侧</span><b>8</b></div><div class="zone"><span>A2 食堂北侧</span><b>3</b></div><div class="zone"><span>A3 宿舍入口</span><b>7</b></div><div class="route">导航至 A1 · 约 2 分钟</div></div>
+        <div><span class="eyebrow">PHONE LINKAGE</span><h2>不是给车位加屏幕，<br>而是把空位送到手机。</h2><p class="lead">每个机械单元只保留隐藏的占位触发件和低功耗无线节点；网关可安装在墙面或车棚梁柱上。手机端按区域显示余位、拥挤度和步行路线，维护人员还能查看长期离线或疑似卡滞的单元。</p><div class="smart-flow"><div class="smart-step"><b>01 感知</b><p>滑台到位后触发微动开关，避免摄像头带来的隐私与识别误差。</p></div><div class="smart-step"><b>02 汇聚</b><p>节点通过 LoRa 或 BLE Mesh 上传，只需少量集中网关。</p></div><div class="smart-step"><b>03 找位</b><p>小程序展示分区空位并给出最近入口到目标区域的路线。</p></div></div></div>
+      </div>
+    </div></section>
 
     <section class="metrics" id="test"><div class="metrics-inner">
       <span class="eyebrow" style="color:var(--lime)">PROTOTYPE VALIDATION</span><h2>用可测量的数据证明设计有效。</h2>
